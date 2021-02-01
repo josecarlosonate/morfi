@@ -8,16 +8,17 @@
 @section('content')
 
     @if (session('Estado'))
-        
-        <input type="hidden" class="toastrDefaultSuccess" id="mensaje" value="{{ session('Estado') }}">            
-        
+
+        <input type="hidden" class="toastrDefaultSuccess" id="mensaje" value="{{ session('Estado') }}">
+
         <script>
             let mensajeAler = document.getElementById('mensaje');
             setTimeout(() => {
                 $('.toastrDefaultSuccess').show(function() {
-                toastr.success(mensajeAler.value)
-            });
-            }, 1000); 
+                    toastr.success(mensajeAler.value)
+                });
+            }, 1000);
+
         </script>
     @endif
 
@@ -51,12 +52,34 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->role->name }}</td>
+                                <td>
+                                    @if ($user->role)
+                                        {{ $user->role->name }}
+                                    @else
+                                        <span>Sin rol asignado</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <div style="display: flex;justify-content: space-evenly;">
-                                        <a href="" title="Editar"><i class="fa fa-edit"></i></a>
-                                        <a href="" title="Ver mas"><i class="fa fa-eye"></i></a>
-                                        <a href="" title="Borrar"><i class="fa fa-trash"></i></a>
+
+                                        <a href="{{ route('users.edit', $user->id) }}" title=" Editar"
+                                            class="btn btn-xs btn-outline-success">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+
+                                        <a href="{{ route('users.show', $user->id) }}" title="Ver mas"
+                                            class="btn btn-xs btn-outline-warning ">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-xs btn-outline-danger" title="eliminar">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+
                                     </div>
                                 </td>
                             </tr>

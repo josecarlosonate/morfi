@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -46,9 +47,8 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         
-            // return $request->all();
-            // redireccionar a usuarios index 
-            
+            User::create($request->all());
+            // redireccionar a usuarios index             
             return redirect()->route('users.index')->with('Estado', 'Operacion De Registro Realizada Con Exito!');
         
     }
@@ -61,7 +61,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        //tomo el id y consulto
+        $user = User::findOrFail($id);
+        //redireciono
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -71,8 +74,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {    
+        // consulto la tabla roles 
+        $roles = Role::all();
+        //tomo el id y consulto
+        $user = User::findOrFail($id);
+        //redireciono
+        return view('users.edit', compact(['user','roles']));
     }
 
     /**
@@ -83,8 +91,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        // falta crear request para validar este formulario 
+        //tomo el id y consulto
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return redirect()->route('users.index')->with('Estado', 'Usuario actualizado con exito!');
     }
 
     /**
@@ -96,5 +108,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        User::findOrFail($id)->delete();
+        return redirect()->route('users.index')->with('Estado', 'Usuario eliminado con exito!');
     }
 }

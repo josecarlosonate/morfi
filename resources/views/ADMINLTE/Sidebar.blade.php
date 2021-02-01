@@ -40,7 +40,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="" class="nav-link {{ request()->is('roles/*') ? 'active' : '' }}">
+                        <a href="{{route('roles.index')}}" class="nav-link {{ request()->is('roles*') ? 'active' : '' }}">
                             <i class="nav-icon far fa-flag"></i>
                             <p> Gestion De Roles </p>
                         </a>

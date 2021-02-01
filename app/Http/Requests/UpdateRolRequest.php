@@ -3,30 +3,32 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class RolePostRequest extends FormRequest
+class UpdateRolRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return  bool
+     * @return bool
      */
     public function authorize()
     {
-        return true;
+        if (Auth::user()->role->key === 'admin') {
+            return true;
+        }
+        return false;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return  array
+     * @return array
      */
     public function rules()
     {
         return [
-            'key' => [
-                'required',
-            ],
+            
             'name' => [
                 'required',
                 'min:5',
