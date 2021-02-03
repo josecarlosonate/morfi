@@ -46,11 +46,11 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        
+
             User::create($request->all());
-            // redireccionar a usuarios index             
+            // redireccionar a usuarios index
             return redirect()->route('users.index')->with('Estado', 'Operacion De Registro Realizada Con Exito!');
-        
+
     }
 
     /**
@@ -74,8 +74,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {    
-        // consulto la tabla roles 
+    {
+        // consulto la tabla roles
         $roles = Role::all();
         //tomo el id y consulto
         $user = User::findOrFail($id);
@@ -91,8 +91,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
-        // falta crear request para validar este formulario 
+    {
+        // falta crear request para validar este formulario
         //tomo el id y consulto
         $user = User::findOrFail($id);
         $user->update($request->all());

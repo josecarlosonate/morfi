@@ -14,5 +14,6 @@ Route::resource('/users', 'UserController');
 
 Route::resource('roles', 'RoleController');
 
+
 # Annexe Routes for web.php
 Route::resource('annexes', 'AnnexeController');
