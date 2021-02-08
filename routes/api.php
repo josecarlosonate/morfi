@@ -26,3 +26,8 @@ Route::post('/register', 'AuthController@register');
 Route::group(['middleware' => 'auth.jwt'], function () {
 Route::post('/logout', 'AuthController@logout');
 });
+
+//Cargar imagen de perfil
+Route::post('profileImage/{id}', 'API\ImageProfileController@UploadProfile');
+
+Route::apiResource('servicios', 'API\ServiciosController');
