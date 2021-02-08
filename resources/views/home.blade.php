@@ -1,6 +1,6 @@
 @extends('ADMINLTE.dash')
 
-@section('title','Panel de Administracion')
+@section('title','Panel de Administración')
 
 @section('title_page','Dashboard')
 

@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -23,6 +23,7 @@ class AuthController extends Controller
         if ($this->loginAfterSignUp) {
             return $this->login($request);
         }
+
         return response()->json([
             'status' => 'ok',
             'data' => $user
@@ -38,9 +39,14 @@ class AuthController extends Controller
                 'message' => 'Correo o contraseña no válidos.',
             ], 401);
         }
+        $email = $input['email'];
+        $nombre = User::where("email","=",$email)->find(1);
+        //$nombre=DB::select('select name from users where email ='+ $email+'');
+
         return response()->json([
             'status' => 'ok',
             'token' => $jwt_token,
+            'data'  => $nombre,
         ]);
     }
     public function logout(Request $request)
