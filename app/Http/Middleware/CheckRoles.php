@@ -14,9 +14,9 @@ class CheckRoles
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $role)
     {   
-        if(Auth::user()->role->key === 'admin'){
+        if(Auth::user()->role->key === $role){
             return $next($request);
         }
         return redirect('home');
