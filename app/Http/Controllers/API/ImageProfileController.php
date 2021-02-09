@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Exception;
 
 class ImageProfileController extends Controller
 {
@@ -16,10 +17,19 @@ public function UploadProfile(Request $request, $id){
         $name_File = str_replace(" ", "_", $filename);
 
         $extension = $file->getClientOriginalExtension();
-        $picture = $id . '-' . $name_File . '.' . $extension;
+        $picture = $id . '-perfil.' . $extension;
         $file->move(public_path('ProfileImage/'),$picture);
-
-        return response()->json(["mensaje" => "Foto de perfil actualizada correctamente"]);
+        $routeImage = public_path('ProfileImage/');
+        $routeImage .= $picture;
+        try{
+            $User = User::find($id);
+            $User->ImageProfile = $routeImage;
+            $User->save();
+        }catch(Exception $ex){
+            $this->response->error = true;
+            $this->response->message = "Error putImageProfile "+$ex->getMessage();
+        }
+        return response()->json(["mensaje" => $id]);
     }
     else{
         return response()->json(["mensaje" => "Error subiendo la imagen"]);
